@@ -1,1 +1,1 @@
-Hello World
+http://community.mybb.com/thread-70791.html
