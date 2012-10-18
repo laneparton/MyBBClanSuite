@@ -14,16 +14,6 @@ function matches_meta()
 	// get access to everything we want
 	global $page, $lang, $plugins, $db;
 
-	// this is a list of sub menus
-	$sub_menu = array();
-	$sub_menu['10'] = array("id" => "addnew", "title" => "Add Match", "link" => "index.php?module=matches/addnew");
-	$sub_menu['20'] = array("id" => "manage", "title" => "Manage Matches", "link" => "index.php?module=matches/manage");
-	
-	// custom plugin hooks!
-	$plugins->run_hooks_by_ref("admin_forum_menu", $sub_menu);
-	
-	$page->add_menu_item("Match Manager", "matches", "index.php?module=matches", 81, $sub_menu);
-
 	if($db->table_exists("matches"))
 	{	// plugin installed, so show this module's link
 		// add_menu_item(title, name, link, display order, submenus)
@@ -47,9 +37,30 @@ function matches_action_handler($action)
 		'manage' => array('active' => 'manage', 'file' => 'manage.php'),
 	);
 	
+	if(!isset($actions[$action]))
+	{
+		$page->active_action = "manage";
+	}
+	else
+	{
+		$page->active_action = $actions[$action]['active'];
+	}
 	// more custom plugin hooks!
 	$plugins->run_hooks_by_ref("admin_matches_action_handler", $actions);
 	
+	if($page->active_action == "manage" || $page->active_action == "addnew")
+	{
+	// this is a list of sub menus
+	$sub_menu = array();
+	$sub_menu['10'] = array("id" => "addnew", "title" => "Add Match", "link" => "index.php?module=matches/addnew");
+	$sub_menu['20'] = array("id" => "manage", "title" => "Manage Matches", "link" => "index.php?module=matches/manage");
+	
+	$sidebar = new SidebarItem("Matches Manager");
+	$sidebar->add_menu_items($sub_menu, $page->active_action);
+
+	$page->sidebar .= $sidebar->get_markup();
+	}
+
 	if(isset($actions[$action]))
 	{	// set the action and return the page
 		$page->active_action = $actions[$action]['active'];

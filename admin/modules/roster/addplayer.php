@@ -27,7 +27,16 @@ if($mybb->input['save']=="save")
 		
 		if($num < 1)
 		{
-			flash_message("User does not exist", 'error');
+			flash_message("Player added to the team, however he/she is not a forum member.", 'success');
+		
+			$insert_array = array(
+					"uid"			=> null,
+					"uname"			=> addslashes($mybb->input['username']),
+					"team"			=> addslashes($mybb->input['team']),
+					"position"		=> addslashes($mybb->input['position'])
+				);
+				
+			$db->insert_query("rostermembers", $insert_array);
 		}
 		else
 		{
@@ -40,6 +49,7 @@ if($mybb->input['save']=="save")
 		
 			$insert_array = array(
 					"uid"			=> $userid,
+					"uname"			=> addslashes($mybb->input['username']),
 					"team"			=> addslashes($mybb->input['team']),
 					"position"		=> addslashes($mybb->input['position'])
 				);

@@ -90,9 +90,8 @@ $form_container->output_row("Opponent's Line Up", "The opponents line up", $form
 
 $form_container->output_row("Date", "The date this match was played on", $form->generate_date_select('date'), 'date');
 
-$form_container->output_row("Video Link", "A link to a youtube video", $form->generate_text_box('video', $team_score, array('id' => 'video')), 'video');
 
-$form_container->output_row("Match Report", "A brief report of what happened in the match", $form->generate_text_area('report', $report, array('id' => 'report', 'rows' => '15', 'cols' => '55', 'style' => 'width: 100%;')), 'report');
+$form_container->output_row("Match Report", "A box that allows for you to explain what happened, post a video of the match, or post a screenshot. <br />HTML is <strong> Enabled </strong>", $form->generate_text_area('report', $report, array('id' => 'report', 'rows' => '15', 'cols' => '55', 'style' => 'width: 100%;')), 'report');
 
 // close the form container
 $form_container->end();

@@ -22,19 +22,29 @@ if ($teams_num > 0)
 		$members_query	= $db->query("SELECT * FROM " . TABLE_PREFIX . "rostermembers WHERE team = $team_id");
 		$members_num	= $db->num_rows($members_query);
 		
-		if ($members_num > 0)
+		if	($members_num > 0)
 		{
 			while ($members_array = $db->fetch_array($members_query))
 			{
 				$members_uid	= $members_array['uid'];
+				$members_uname	= $members_array['uname'];
 				$members_pos	= $members_array['position'];
 				
-				$user_query 	= $db->query("SELECT username, avatar FROM " . TABLE_PREFIX . "users WHERE uid = " . $members_uid ."");
-						
-				while ($user_data = $db->fetch_array($user_query))
+				//If the username is registered, lets give it the appropriate details
+				if	($members_uid != 0)
 				{
-					$user_name 		= $user_data['username'];
-					$user_avatar 	= $user_data['avatar'];
+					$user_query 	= $db->query("SELECT username, avatar FROM " . TABLE_PREFIX . "users WHERE uid = " . $members_uid ."");
+							
+					while ($user_data = $db->fetch_array($user_query))
+					{
+						$user_name 		= $user_data['username'];
+						$user_avatar 	= $user_data['avatar'];
+					}
+				}
+				//If not, let's give it the name stored in rostermembers
+				else
+				{
+					$user_name	=	$members_uname;
 				}
 				
 				eval("\$members_bit .= \"".$templates->get("roster_user")."\";");

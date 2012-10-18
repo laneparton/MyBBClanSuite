@@ -47,6 +47,7 @@ function roster_install()
 	$db->write_query("CREATE TABLE IF NOT EXISTS `".TABLE_PREFIX."rostermembers` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `uid` int(10) default NULL,
+  `uname` varchar(240) NOT NULL,
   `team` int(10) default NULL,
   `position` varchar(240) NOT NULL,
   PRIMARY KEY  (`id`)

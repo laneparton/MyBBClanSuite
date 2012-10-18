@@ -13,17 +13,7 @@ function news_meta()
 {
 	// get access to everything we want
 	global $page, $lang, $plugins, $db;
-
-	// this is a list of sub menus
-	$sub_menu = array();
-	$sub_menu['10'] = array("id" => "addnew", "title" => "Add News", "link" => "index.php?module=news/addnew");
-	$sub_menu['20'] = array("id" => "manage", "title" => "Manage News", "link" => "index.php?module=news/manage");
 	
-	// custom plugin hooks!
-	$plugins->run_hooks_by_ref("admin_forum_menu", $sub_menu);
-	
-	$page->add_menu_item("News Manager", "news", "index.php?module=news", 80, $sub_menu);
-
 	if($db->table_exists("news"))
 	{
 		return true;
@@ -44,8 +34,31 @@ function news_action_handler($action)
 		'manage' => array('active' => 'manage', 'file' => 'manage.php'),
 	);
 	
+	
+	if(!isset($actions[$action]))
+	{
+		$page->active_action = "manage";
+	}
+	else
+	{
+		$page->active_action = $actions[$action]['active'];
+	}
+	
 	// more custom plugin hooks!
 	$plugins->run_hooks_by_ref("admin_news_action_handler", $actions);
+
+	if($page->active_action == "manage" || $page->active_action == "addnew")
+	{
+	// this is a list of sub menus
+	$sub_menu = array();
+	$sub_menu['10'] = array("id" => "addnew", "title" => "Add News", "link" => "index.php?module=news/addnew");
+	$sub_menu['20'] = array("id" => "manage", "title" => "Manage News", "link" => "index.php?module=news/manage");
+	
+	$sidebar = new SidebarItem("News Manager");
+	$sidebar->add_menu_items($sub_menu, $page->active_action);
+
+	$page->sidebar .= $sidebar->get_markup();
+	}
 	
 	if(isset($actions[$action]))
 	{	// set the action and return the page

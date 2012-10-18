@@ -45,12 +45,9 @@ if($mybb->input['action']=="" || $mybb->input['action']=="delete" || $mybb->inpu
 			// Add the items
 			$popup->add_item("Remove", "index.php?module=roster/manage&amp;action=deleteuser&amp;id=".$item['id']);
 		
-			$user_query = $db->simple_select("users", "*", "uid = '".$item['uid']."'");
-			while($user = $db->fetch_array($user_query))
-			{
-				$username = $user['username'];
-			}
-		
+			//Since we have no reason to pull the username's details right now, let's just load it from the rostermembers table.
+			$username = $item['uname'];
+				
 			// create the info cell
 			// construct_cell(content, array(html modifiers))
 			$table->construct_cell($username);

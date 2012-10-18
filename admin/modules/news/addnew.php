@@ -8,7 +8,7 @@ if(!defined("IN_MYBB"))
 	die("Direct initialization of this file is not allowed.<br /><br />Please make sure IN_MYBB is defined.");
 }
 
-$page->add_breadcrumb_item("Add News", "index.php?module=news/addnew");
+$page->add_breadcrumb_item("Add News", "index.php?module=clansuite/news/addnew");
 
 if($mybb->input['save']=="save")
 {
