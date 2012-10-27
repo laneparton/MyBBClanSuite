@@ -55,7 +55,14 @@ if ($teams_num > 0)
 			eval("\$members_bit .= \"".$templates->get("roster_user_none")."\";");
 		}
 		
-		eval("\$teams_bit .= \"".$templates->get("roster_team")."\";");
+		if ($team_image != null)
+		{
+			eval("\$teams_bit .= \"".$templates->get("roster_team")."\";");
+		}
+		else
+		{
+			eval("\$teams_bit .= \"".$templates->get("roster_team_imgnull")."\";");
+		}
 		
 		$members_bit = "";
 	}

@@ -23,7 +23,10 @@ function news_meta()
 
 function news_action_handler($action)
 {
-	global $page, $lang, $plugins;
+	global $db, $page, $lang, $plugins;
+	
+	$news_query 	= $db->query("SELECT * FROM " . TABLE_PREFIX . "news");
+	$news_num		= $db->num_rows($news_query);
 	
 	// our module's name
 	$page->active_module = "news";
@@ -34,10 +37,16 @@ function news_action_handler($action)
 		'manage' => array('active' => 'manage', 'file' => 'manage.php'),
 	);
 	
-	
 	if(!isset($actions[$action]))
 	{
-		$page->active_action = "manage";
+		if($news_num > 0)
+		{
+			$page->active_action	=	"manage";
+		}
+		else
+		{
+			$page->active_action	=	"addnew";
+		}
 	}
 	else
 	{
@@ -67,7 +76,15 @@ function news_action_handler($action)
 	}
 	else
 	{	// return the default page
-		$page->active_action = "manage";
-		return "manage.php";
+		if($news_num > 0)
+		{
+			$page->active_action	=	"manage";
+			return "manage.php";
+		}
+		else
+		{
+			$page->active_action	=	"addnew";
+			return "addnew.php";
+		}
 	}
 }

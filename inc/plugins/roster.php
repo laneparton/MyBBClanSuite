@@ -116,10 +116,30 @@ function roster_templates()
 	
 	$temp = array(
 		"sid"		=> "NULL",
+		"title"		=> "roster_team_imgnull",
+		"template"	=> $db->escape_string('<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder" style="clear: both; border-bottom-width: 0;">
+
+<tr><td class="thead" colspan="2">{$team_name}</td></tr>
+
+<tr><td class="tcat">Username</td><td class="tcat">Position</td></tr>
+
+{$members_bit}
+
+</table><br />'),
+		"sid"		=> "-1",
+		"version"	=> "1.0",
+		"status"	=> "0",
+		"dateline"	=> time(),
+	);
+	
+	$db->insert_query("templates", $temp);
+	
+	$temp = array(
+		"sid"		=> "NULL",
 		"title"		=> "roster_team",
 		"template"	=> $db->escape_string('<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder" style="clear: both; border-bottom-width: 0;">
 
-<tr><td class="thead" colspan="2"><img src="{$team_image}" alt="{$team_name}"></td></tr>
+<tr><td class="thead" colspan="2"><img src="{$team_image}" alt="{$team_name}" /></td></tr>
 
 <tr><td class="tcat">Username</td><td class="tcat">Position</td></tr>
 

@@ -26,8 +26,13 @@ function matches_meta()
 
 function matches_action_handler($action)
 {
-	global $page, $lang, $plugins;
+	global $db, $page, $lang, $plugins;
 	
+	
+	//Check number of rows
+	$matches_query 	= $db->query("SELECT * FROM " . TABLE_PREFIX . "matches");
+	$matches_num		= $db->num_rows($matches_query);
+
 	// our module's name
 	$page->active_module = "matches";
 	
@@ -39,7 +44,14 @@ function matches_action_handler($action)
 	
 	if(!isset($actions[$action]))
 	{
-		$page->active_action = "manage";
+		if($matches_num > 0)
+		{
+			$page->active_action	=	"manage";
+		}
+		else
+		{
+			$page->active_action	=	"addnew";
+		}
 	}
 	else
 	{
@@ -68,7 +80,15 @@ function matches_action_handler($action)
 	}
 	else
 	{	// return the default page
-		$page->active_action = "manage";
-		return "manage.php";
+		if($matches_num > 0)
+		{
+			$page->active_action	=	"manage";
+			return "manage.php";
+		}
+		else
+		{
+			$page->active_action	=	"addnew";
+			return "addnew.php";
+		}
 	}
 }

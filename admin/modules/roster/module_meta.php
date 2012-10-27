@@ -26,7 +26,12 @@ function roster_meta()
 
 function roster_action_handler($action)
 {
-	global $page, $lang, $plugins;
+	global $db, $page, $lang, $plugins;
+	
+	
+	//Check number of rows
+	$teams_query 	= $db->query("SELECT * FROM " . TABLE_PREFIX . "rosterteams");
+	$teams_num		= $db->num_rows($teams_query);
 	
 	// our module's name
 	$page->active_module = "roster";
@@ -40,7 +45,14 @@ function roster_action_handler($action)
 	
 	if(!isset($actions[$action]))
 	{
-		$page->active_action = "manage";
+		if($teams_num > 0)
+		{
+			$page->active_action	=	"manage";
+		}
+		else
+		{
+			$page->active_action	=	"addteam";
+		}
 	}
 	else
 	{
@@ -51,7 +63,6 @@ function roster_action_handler($action)
 	
 	if($page->active_action == "manage" || $page->active_action == "addteam" || $page->active_action == "addplayer")
 	{
-	// this is a list of sub menus
 	// this is a list of sub menus
 	$sub_menu = array();
 	$sub_menu['10'] = array("id" => "addteam", "title" => "Create Team", "link" => "index.php?module=roster/addteam");
@@ -70,8 +81,18 @@ function roster_action_handler($action)
 		return $actions[$action]['file'];
 	}
 	else
-	{	// return the default page
-		$page->active_action = "manage";
-		return "manage.php";
+	{
+		// return the default page
+		if ($teams_num > 0)
+		{
+			$page->active_action = "manage";
+			return "manage.php";
+		}
+		else
+		{
+			$page->active_action = "addteam";
+			return "addteam.php";
+		}
+		
 	}
 }

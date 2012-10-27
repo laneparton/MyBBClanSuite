@@ -23,7 +23,11 @@ function servers_meta()
 
 function servers_action_handler($action)
 {
-	global $page, $lang, $plugins;
+	global $db, $page, $lang, $plugins;
+	
+	
+	$servers_query 	= $db->query("SELECT * FROM " . TABLE_PREFIX . "servers");
+	$servers_num		= $db->num_rows($servers_query);
 	
 	$page->active_module = "servers";
 	
@@ -35,7 +39,14 @@ function servers_action_handler($action)
 	
 	if(!isset($actions[$action]))
 	{
-		$page->active_action = "manage";
+		if($servers_num > 0)
+		{
+			$page->active_action	=	"manage";
+		}
+		else
+		{
+			$page->active_action	=	"addnew";
+		}
 	}
 	else
 	{
@@ -46,7 +57,6 @@ function servers_action_handler($action)
 	
 	if($page->active_action == "manage" || $page->active_action == "addserver")
 	{
-	// this is a list of sub menus
 	// this is a list of sub menus
 	$sub_menu = array();
 	$sub_menu['10'] = array("id" => "addserver", "title" => "Add Server", "link" => "index.php?module=servers/addserver");
@@ -65,7 +75,15 @@ function servers_action_handler($action)
 	}
 	else
 	{	// return the default page
-		$page->active_action = "manage";
-		return "manage.php";
+		if($servers_num > 0)
+		{
+			$page->active_action	=	"manage";
+			return "manage.php";
+		}
+		else
+		{
+			$page->active_action	=	"addnew";
+			return "addserver.php";
+		}
 	}
 }
