@@ -16,7 +16,6 @@ function matches_meta()
 
 	if($db->table_exists("matches"))
 	{	// plugin installed, so show this module's link
-		// add_menu_item(title, name, link, display order, submenus)
 		return true;
 	}
 	// I assume returning false means "don't do anything"
@@ -30,9 +29,11 @@ function matches_action_handler($action)
 	
 	
 	//Check number of rows
-	$matches_query 	= $db->query("SELECT * FROM " . TABLE_PREFIX . "matches");
-	$matches_num		= $db->num_rows($matches_query);
-
+	$matches_query 	=	$db->query("SELECT * FROM " . TABLE_PREFIX . "matches");
+	$matches_num	=	$db->num_rows($matches_query);
+	$teams_query	=	$db->query("SELECT * FROM " . TABLE_PREFIX . "rosterteams");
+	$teams_num		=	$db->num_rows($teams_query);
+	
 	// our module's name
 	$page->active_module = "matches";
 	
@@ -42,15 +43,25 @@ function matches_action_handler($action)
 		'manage' => array('active' => 'manage', 'file' => 'manage.php'),
 	);
 	
+	//If the action isn't set, then let's set it!
 	if(!isset($actions[$action]))
 	{
-		if($matches_num > 0)
+		if($teams_num > 0)
 		{
-			$page->active_action	=	"manage";
+			//If there are matches in the DB, let's manage them first!
+			if($matches_num > 0)
+			{
+				$page->active_action	=	"manage";
+			}
+			//If not, let's go to the add new page first.
+			else
+			{
+				$page->active_action	=	"addnew";
+			}
 		}
 		else
 		{
-			$page->active_action	=	"addnew";
+			header("Location: index.php?module=roster/addteam");
 		}
 	}
 	else

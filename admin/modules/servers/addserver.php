@@ -41,7 +41,7 @@ $form_container = new FormContainer("Add Server");
 echo $form->generate_hidden_field("save", "save", array('id' => "save"))."\n";
 
 $form_container->output_row("Name", "The Server Name/Nickname(Most will not see this)", $form->generate_text_box('name', $name, array('id' => 'name')), 'name');
-$form_container->output_row("Image", "The image that will appear on the server index.", $form->generate_text_box('image', $image, array('id' => 'image')), 'image');
+$form_container->output_row("Image", "This is designed for HTML code to support server monitoring. If you just have an image, use HTML to display it.", $form->generate_text_box('image', $image, array('id' => 'image')), 'image');
 
 // close the form container
 $form_container->end();
