@@ -52,14 +52,8 @@ if (!isset($id))
 			$result="<span style='color: grey'>".$match['team_score']."-".$match['opponent_score']."</span>";
 		}
 		
-		if(!$match['video'] == null)
-		{
-			$video = "";
-		}
-		
 		$matches_row .= eval("\$matches_row .= \"".$templates->get("matches_row")."\";");
 		
-		$video = "";
 		$result = "";
 	}
 	

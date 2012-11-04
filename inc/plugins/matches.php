@@ -44,7 +44,6 @@ CREATE TABLE IF NOT EXISTS `".TABLE_PREFIX."matches` (
   `team_score` int(2) NOT NULL default '0',
   `competition` varchar(240) NOT NULL,
   `date` text NOT NULL,
-  `video` varchar(215) NOT NULL,
   `opponent_teamline` varchar(250) NOT NULL,
   `team_teamline` varchar(250) NOT NULL,
   `report` text NOT NULL,
@@ -189,12 +188,6 @@ function matches_templates()
 </table>
 
 <br />
-
-<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder" style="clear: both; border-bottom-width: 0;">
-<tr><td class="thead">Match Video</td></tr>
-<tr><td width="35%" class="trow1"><iframe title="YouTube video player" width="640" height="510" src="http://www.youtube.com/embed/{$match[\'video\']}" frameborder="0" allowfullscreen></iframe></td></tr>
-{$video}
-</table>
 
 {$footer}
 </body>

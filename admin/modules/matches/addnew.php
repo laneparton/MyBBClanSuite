@@ -50,7 +50,6 @@ if($mybb->input['save']=="save")
 					"team_score"			=> addslashes($mybb->input['team_score']),
 					"competition"			=> addslashes($mybb->input['competition']),
 					"date"					=> addslashes($date),
-					"video"					=> addslashes($mybb->input['video']),
 					"opponent_teamline"		=> addslashes($mybb->input['opponent_teamline']),
 					"team_teamline"			=> addslashes($mybb->input['team_teamline']),
 					"report"				=> $db->escape_string($mybb->input['report'])
