@@ -16,10 +16,22 @@ function clansuite_meta()
 
 	// this is a list of sub menus
 	$sub_menu = array();
-	$sub_menu['10'] = array("id" => "News", "title" => "News Manager", "link" => "index.php?module=news");
-	$sub_menu['20'] = array("id" => "Matches", "title" => "Match Manager", "link" => "index.php?module=matches");
-	$sub_menu['30'] = array("id" => "Roster", "title" => "Roster Manager", "link" => "index.php?module=roster");
-	$sub_menu['40'] = array("id" => "Servers", "title" => "Server Manager", "link" => "index.php?module=servers");
+	if($db->table_exists("news"))
+	{
+		$sub_menu['10'] = array("id" => "News", "title" => "News Manager", "link" => "index.php?module=news");
+	}
+	if($db->table_exists("matches") && $db->table_exists("rosterteams"))
+	{
+		$sub_menu['20'] = array("id" => "Matches", "title" => "Match Manager", "link" => "index.php?module=matches");
+	}
+	if($db->table_exists("rosterteams"))
+	{
+		$sub_menu['30'] = array("id" => "Roster", "title" => "Roster Manager", "link" => "index.php?module=roster");
+	}
+	if($db->table_exists("servers"))
+	{
+		$sub_menu['40'] = array("id" => "Servers", "title" => "Server Manager", "link" => "index.php?module=servers");
+	}
 		
 	// custom plugin hooks!
 	$plugins->run_hooks_by_ref("admin_forum_menu", $sub_menu);
@@ -39,8 +51,6 @@ function clansuite_action_handler($action)
 	// the available actions and their pages
 	$actions = array(
 		'home' => array('active' => 'home', 'file' => 'home.php'),
-		'news' => array('active' => 'news', 'file' => 'index.php?module=news'),
-		'matches' => array('active' => 'matches', 'file' => 'index.php?module=matches'),
 
 	);
 	
